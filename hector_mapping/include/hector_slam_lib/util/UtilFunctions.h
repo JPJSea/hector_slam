@@ -73,8 +73,6 @@ static T toRad(const T degVal)
 static bool poseDifferenceLargerThan(const Eigen::Vector3f& pose1, const Eigen::Vector3f& pose2, float distanceDiffThresh, float angleDiffThresh)
 {
   //check distance
-  std::cout << "distanceDiffThresh: " << distanceDiffThresh;
-  std::cout << "angleDiffThresh: " << angleDiffThresh;
   if ( ( (pose1.head<2>() - pose2.head<2>()).norm() ) > distanceDiffThresh){
     return true;
   }

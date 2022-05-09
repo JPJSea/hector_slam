@@ -578,12 +578,7 @@ void HectorMappingRos::publishMapLoop(double map_pub_period)
 {
   ros::Rate r(1.0 / map_pub_period);
   //Han Test 
-  // ros::NodeHandle nh; 
   ros::NodeHandle map_update_nh("~");
-  // double map_update_angle_var;
-  // double map_update_distance_var;
-  // double param4; 
-  // param4 = 0.1;
   //Han Test 
 
   while(ros::ok())
@@ -600,22 +595,11 @@ void HectorMappingRos::publishMapLoop(double map_pub_period)
     //ROS_INFO("HectorSM ms: %4.2f", t2.toSec()*1000.0f);
 
     // r.sleep();
+    
 
     // Han Test //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ROS_INFO("Han Test inside HectorMappingRos.cpp----------------------------");
-    
-    ROS_INFO("p_map_update_angle_threshold_: [%f]" , p_map_update_angle_threshold_);
-    ROS_INFO("p_map_update_distance_threshold_: [%f]" , p_map_update_distance_threshold_);
-
-    // han_nh.param("map_update_angle_thresh", p_map_update_angle_threshold_, 0.1);          //setting the value of the parameter
-    // han_nh.param("map_update_distance_thresh", p_map_update_distance_threshold_, 0.1);
-
-    // map_update_angle_var = map_update_nh.param("map_update_angle_thresh", p_map_update_angle_threshold_);     //getting the value of the parameter
-    // map_update_distance_var = map_update_nh.param("map_update_distance_thresh", p_map_update_distance_threshold_);     //getting the value of the parameter
-    // ROS_INFO("map_update_angle_var: %f", map_update_angle_var);
-    // ROS_INFO("map_update_distance_var: %f", map_update_distance_var);
-    // p_map_update_angle_threshold_ = map_update_angle_var;
-    // p_map_update_distance_threshold_ = map_update_distance_var;
+    // ROS_INFO("p_map_update_angle_threshold_: [%f]" , p_map_update_angle_threshold_);
+    // ROS_INFO("p_map_update_distance_threshold_: [%f]" , p_map_update_distance_threshold_);
 
     p_map_update_angle_threshold_ = map_update_nh.param("map_update_angle_thresh", p_map_update_angle_threshold_);     //getting the value of the parameter
     p_map_update_distance_threshold_ = map_update_nh.param("map_update_distance_thresh", p_map_update_distance_threshold_);     //getting the value of the parameter
@@ -623,15 +607,8 @@ void HectorMappingRos::publishMapLoop(double map_pub_period)
     slamProcessor->setMapUpdateMinAngleDiff(p_map_update_angle_threshold_);
     slamProcessor->setMapUpdateMinDistDiff(p_map_update_distance_threshold_);
     
-    ROS_INFO("p_map_update_angle_threshold_ after update: [%f]" , p_map_update_angle_threshold_);
-    ROS_INFO("p_map_update_distance_threshold_ after update: [%f]" , p_map_update_distance_threshold_);
-
-
-    // nh.getParam("/hector_mapping/map_update_angle_thresh", param4); //Add this line
-    // nh.getParam("/hector_mapping/map_update_distance_thresh", param4); //Add this line
-    // ROS_INFO("/hector_mapping/map_update_angle_thresh after change: [%f]" , p_map_update_angle_threshold_);
-    // ROS_INFO("/hector_mapping/map_update_distance_thresh after change: [%f]" , p_map_update_distance_threshold_);
-
+    // ROS_INFO("p_map_update_angle_threshold_ after update: [%f]" , p_map_update_angle_threshold_);
+    // ROS_INFO("p_map_update_distance_threshold_ after update: [%f]" , p_map_update_distance_threshold_);
 
     ros::Time mapTime (ros::Time::now());
     publishMap(mapPubContainer[0],slamProcessor->getGridMap(0), mapTime, slamProcessor->getMapMutex(0));
