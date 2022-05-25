@@ -577,44 +577,27 @@ void HectorMappingRos::setStaticMapData(const nav_msgs::OccupancyGrid& map)
 void HectorMappingRos::publishMapLoop(double map_pub_period)
 {
   ros::Rate r(1.0 / map_pub_period);
-  //Han Test 
   ros::NodeHandle map_update_nh("~");
-  //Han Test 
-
+  
   while(ros::ok())
   {
-    //ros::WallTime t1 = ros::WallTime::now();
-    // ros::Time mapTime (ros::Time::now());
-    //publishMap(mapPubContainer[2],slamProcessor->getGridMap(2), mapTime);
-    //publishMap(mapPubContainer[1],slamProcessor->getGridMap(1), mapTime);
-    // publishMap(mapPubContainer[0],slamProcessor->getGridMap(0), mapTime, slamProcessor->getMapMutex(0));
+    /*
+    Get the values of the ROS parameters 'map_update_angle_thresh'
+    and 'map_update_distance_thresh' set by 'rosparam' commands in a terminal
+    and update the corresponding threshold variables
+    */
+    p_map_update_angle_threshold_ = map_update_nh.param("map_update_angle_thresh", p_map_update_angle_threshold_);
+    p_map_update_distance_threshold_ = map_update_nh.param("map_update_distance_thresh", p_map_update_distance_threshold_);
 
-    //ros::WallDuration t2 = ros::WallTime::now() - t1;
-
-    //std::cout << "time s: " << t2.toSec();
-    //ROS_INFO("HectorSM ms: %4.2f", t2.toSec()*1000.0f);
-
-    // r.sleep();
-    
-
-    // Han Test //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ROS_INFO("p_map_update_angle_threshold_: [%f]" , p_map_update_angle_threshold_);
-    // ROS_INFO("p_map_update_distance_threshold_: [%f]" , p_map_update_distance_threshold_);
-
-    p_map_update_angle_threshold_ = map_update_nh.param("map_update_angle_thresh", p_map_update_angle_threshold_);     //getting the value of the parameter
-    p_map_update_distance_threshold_ = map_update_nh.param("map_update_distance_thresh", p_map_update_distance_threshold_);     //getting the value of the parameter
-    
+    // Update map update thresholds
     slamProcessor->setMapUpdateMinAngleDiff(p_map_update_angle_threshold_);
     slamProcessor->setMapUpdateMinDistDiff(p_map_update_distance_threshold_);
     
-    // ROS_INFO("p_map_update_angle_threshold_ after update: [%f]" , p_map_update_angle_threshold_);
-    // ROS_INFO("p_map_update_distance_threshold_ after update: [%f]" , p_map_update_distance_threshold_);
 
     ros::Time mapTime (ros::Time::now());
     publishMap(mapPubContainer[0],slamProcessor->getGridMap(0), mapTime, slamProcessor->getMapMutex(0));
 
     r.sleep();
-    // Han Test //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   }
 }
 
