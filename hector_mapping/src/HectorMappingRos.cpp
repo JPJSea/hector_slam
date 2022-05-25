@@ -577,28 +577,20 @@ void HectorMappingRos::setStaticMapData(const nav_msgs::OccupancyGrid& map)
 void HectorMappingRos::publishMapLoop(double map_pub_period)
 {
   ros::Rate r(1.0 / map_pub_period);
-  // node handler and variables to keep rosparam values
+  // a node handler
   ros::NodeHandle map_update_nh("~");
+  // variables to keep rosparam values, initialised with the map update thresholds
   double rosparam_map_update_angle_thresh = p_map_update_angle_threshold_;
   double rosparam_map_update_distance_thresh = p_map_update_distance_threshold_;
   
   while(ros::ok())
   {
-    ROS_INFO("p_map_update_angle_threshold_: %f \n", p_map_update_angle_threshold_);
-    ROS_INFO("p_map_update_distance_threshold_: %f \n", p_map_update_distance_threshold_);
-    ROS_INFO("rosparam_map_update_angle_thresh: %f \n", rosparam_map_update_angle_thresh);
-    ROS_INFO("rosparam_map_update_distance_thresh: %f \n", rosparam_map_update_distance_thresh);
     /*
     Get the values of the ROS parameters 'map_update_angle_thresh'
     and 'map_update_distance_thresh' set by 'rosparam' commands in a terminal
     */
     rosparam_map_update_angle_thresh = map_update_nh.param("map_update_angle_thresh", p_map_update_angle_threshold_);
     rosparam_map_update_distance_thresh = map_update_nh.param("map_update_distance_thresh", p_map_update_distance_threshold_);
-    
-    ROS_INFO("p_map_update_angle_threshold_: %f ------------------------\n", p_map_update_angle_threshold_);
-    ROS_INFO("p_map_update_distance_threshold_: %f ------------------------\n", p_map_update_distance_threshold_);
-    ROS_INFO("rosparam_map_update_angle_thresh: %f ------------------------\n", rosparam_map_update_angle_thresh);
-    ROS_INFO("rosparam_map_update_distance_thresh: %f ------------------------\n", rosparam_map_update_distance_thresh);
     
     // Update the map update thresholds if there is difference
     if (p_map_update_angle_threshold_ != rosparam_map_update_angle_thresh){
