@@ -11,20 +11,30 @@ When MallARD tilts on the water, it might see outside beyond the wall, which can
 
 To enable this, the following commands have been added to [HectorMappingRos.cpp](hector_mapping/src/HectorMappingRos.cpp).
 ```
-ros::NodeHandle map_update_nh("~");     // a node handler
+// a node handler
+ros::NodeHandle map_update_nh("~");
+// variables to keep rosparam values, initialised with the map update thresholds
+double rosparam_map_update_angle_thresh = p_map_update_angle_threshold_;
+double rosparam_map_update_distance_thresh = p_map_update_distance_threshold_;
+
 ...
 
 /*
 Get the values of the ROS parameters 'map_update_angle_thresh'
 and 'map_update_distance_thresh' set by 'rosparam' commands in a terminal
-and update the corresponding threshold variables
 */
-p_map_update_angle_threshold_ = map_update_nh.param("map_update_angle_thresh", p_map_update_angle_threshold_);
-p_map_update_distance_threshold_ = map_update_nh.param("map_update_distance_thresh", p_map_update_distance_threshold_);
+rosparam_map_update_angle_thresh = map_update_nh.param("map_update_angle_thresh", p_map_update_angle_threshold_);
+rosparam_map_update_distance_thresh = map_update_nh.param("map_update_distance_thresh", p_map_update_distance_threshold_);
 
-// Update map update thresholds
-slamProcessor->setMapUpdateMinAngleDiff(p_map_update_angle_threshold_);
-slamProcessor->setMapUpdateMinDistDiff(p_map_update_distance_threshold_);
+// Update the map update thresholds if there is difference
+if (p_map_update_angle_threshold_ != rosparam_map_update_angle_thresh){
+    p_map_update_angle_threshold_ = rosparam_map_update_angle_thresh;
+    slamProcessor->setMapUpdateMinAngleDiff(p_map_update_angle_threshold_);
+}
+if (p_map_update_distance_threshold_ != rosparam_map_update_distance_thresh){
+    p_map_update_distance_threshold_ = rosparam_map_update_distance_thresh;
+    slamProcessor->setMapUpdateMinDistDiff(p_map_update_distance_threshold_);
+}
 ```
 
 Now you can change the map update thresholds by setting the corresponding ROS paramters 'map_update_angle_thresh' and 'map_update_distance_thresh' using 'rosparam' commands in a terminal. For example, you can set high thresholds to essentailly stop updating the map, in other words, fix the map.
