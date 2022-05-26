@@ -596,10 +596,12 @@ void HectorMappingRos::publishMapLoop(double map_pub_period)
     if (p_map_update_angle_threshold_ != rosparam_map_update_angle_thresh){
       p_map_update_angle_threshold_ = rosparam_map_update_angle_thresh;
       slamProcessor->setMapUpdateMinAngleDiff(p_map_update_angle_threshold_);
+      ROS_INFO("HectorSM p_map_update_angle_threshold_: %f", p_map_update_angle_threshold_);
     }
     if (p_map_update_distance_threshold_ != rosparam_map_update_distance_thresh){
       p_map_update_distance_threshold_ = rosparam_map_update_distance_thresh;
       slamProcessor->setMapUpdateMinDistDiff(p_map_update_distance_threshold_);
+      ROS_INFO("HectorSM p_map_update_distance_threshold_: %f ", p_map_update_distance_threshold_);
     }
     
 
