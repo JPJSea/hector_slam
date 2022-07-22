@@ -10,7 +10,7 @@ ROS Wiki: http://wiki.ros.org/hector_slam
 When MallARD tilts on the water, it might see outside beyond the wall, which can cause its map being distorted and hence its localisation failing. To prevent this, you can fix the current map by stopping the map being updated. You can do this by increasing the angle and distance thresholds for the map to update. Refer to [README_El-MallARD](https://github.com/EEEManchester/MallARD/blob/main/README_El-MallARD.md) for the steps.
 
 To enable this, the following commands have been added to [HectorMappingRos.cpp](hector_mapping/src/HectorMappingRos.cpp).
-```
+```cpp
 // a node handler
 ros::NodeHandle map_update_nh("~");
 // variables to keep rosparam values, initialised with the map update thresholds
@@ -41,7 +41,7 @@ if (p_map_update_distance_threshold_ != rosparam_map_update_distance_thresh){
 
 Now you can change the map update thresholds by setting the corresponding ROS paramters 'map_update_angle_thresh' and 'map_update_distance_thresh' using 'rosparam' commands in a terminal. For example, you can set high thresholds to essentailly stop updating the map, in other words, fix the map.
 
-```
+``` bash
 rosparam set /hector_mapping/map_update_distance_thresh 1000    # in meters
 rosparam set /hector_mapping/map_update_angle_thresh 1000       # in radians
 ```
